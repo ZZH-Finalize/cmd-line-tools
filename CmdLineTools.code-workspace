@@ -15,7 +15,7 @@
 		],
 		"C_Cpp.default.includePath": [
 			"${workspaceFolder}/**",
-			"C:/cygwin64/usr/include**"
+			"D:/cygwin64/usr/include**"
 		],
 		"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
 		"C_Cpp.default.defines": [
@@ -162,5 +162,30 @@
 				"detail": "安装当前可执行文件到PATH路径"
 			},
 		]
+	},
+	"launch": {
+		"configurations": [
+			{
+                "name": "current",
+                "type": "cppdbg",
+                "request": "launch",
+                "program": "${workspaceFolder}/${fileBasenameNoExtension}.exe",
+                "args": [],
+                "stopAtEntry": true,
+                "cwd": "${workspaceFolder}",
+                "environment": [],
+                "externalConsole": true,
+                "MIMode": "gdb",
+                "miDebuggerPath": "gdb",
+                "setupCommands": [
+                    {
+                        "description": "为 gdb 启用整齐打印",
+                        "text": "-enable-pretty-printing",
+                        "ignoreFailures": true
+                    }
+                ],
+            }
+		],
+		"compounds": []
 	}
 }
