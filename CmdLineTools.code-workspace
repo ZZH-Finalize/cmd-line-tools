@@ -20,15 +20,24 @@
 		"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
 		"C_Cpp.default.defines": [
 			"__OPT_DEBUG"
-		]
+		],
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"**/*.code-workspace": true
+		}
 	},
 	"tasks": {
 		"version": "2.0.0",
 		"tasks": [
 			{
-				"type": "shell",
+				"type": "cppbuild",
 				"label": "dbuild",
-				"command": "gcc",
+				"command": "g++",
 				"args": [
 					"-g3",
 					"-o",
@@ -41,7 +50,7 @@
 				"presentation": {
 					"echo": true,
 					"reveal": "always",
-					"focus": false,
+					"focus": true,
 					"panel": "shared",
 					"showReuseMessage": true,
 					"clear": true
@@ -54,9 +63,9 @@
 				"detail": "构建单个目标(调试)"
 			},
 			{
-				"type": "shell",
+				"type": "cppbuild",
 				"label": "build",
-				"command": "gcc",
+				"command": "g++",
 				"args": [
 					"-O2",
 					"-o",
@@ -69,7 +78,7 @@
 				"presentation": {
 					"echo": true,
 					"reveal": "always",
-					"focus": false,
+					"focus": true,
 					"panel": "shared",
 					"showReuseMessage": true,
 					"clear": true
@@ -83,11 +92,12 @@
 			},
 			{
 				"type": "shell",
-				"label": "build",
+				"label": "clean-one",
 				"command": "rm",
 				"args": [
 					"-f",
-					"${relativeFile}"
+					"${relativeFile}",
+					"${relativeFile}.stackdump",
 				],
 				"options": {
 					"cwd": "${workspaceFolder}"
@@ -106,11 +116,12 @@
 			},
 			{
 				"type": "shell",
-				"label": "build",
+				"label": "clean-all",
 				"command": "rm",
 				"args": [
 					"-f",
-					"*.exe"
+					"*.exe",
+					"*.exe.stackdump",
 				],
 				"options": {
 					"cwd": "${workspaceFolder}"
@@ -126,7 +137,30 @@
 				},
 				"isBackground": true,
 				"detail": "删除工作区内全部目标"
-			}
+			},
+			{
+				"type": "shell",
+				"label": "install",
+				"command": "cp",
+				"args": [
+					"${fileBasenameNoExtension}.exe",
+					"/cygdrive/e/path/${fileBasenameNoExtension}.exe",
+				],
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"presentation": {
+					"echo": false,
+					"reveal": "silent",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true,
+					"close": true
+				},
+				"isBackground": true,
+				"detail": "安装当前可执行文件到PATH路径"
+			},
 		]
 	}
 }
