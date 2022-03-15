@@ -1,0 +1,132 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "命令行工具"
+		}
+	],
+	"settings": {
+		"C_Cpp.default.cStandard": "gnu11",
+		"C_Cpp.autocomplete": "Default",
+		"C_Cpp.default.cppStandard": "gnu++11",
+		"C_Cpp.default.compilerPath": "D:/cygwin64/bin/g++.exe",
+		"C_Cpp.default.compilerArgs": [
+			"-Wall"
+		],
+		"C_Cpp.default.includePath": [
+			"${workspaceFolder}/**",
+			"C:/cygwin64/usr/include**"
+		],
+		"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+		"C_Cpp.default.defines": [
+			"__OPT_DEBUG"
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"type": "shell",
+				"label": "dbuild",
+				"command": "gcc",
+				"args": [
+					"-g3",
+					"-o",
+					"${fileBasenameNoExtension}.exe",
+					"${relativeFile}"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": true,
+					"clear": true
+				},
+				"group": {
+					"kind": "test",
+					"isDefault": true
+				},
+				"problemMatcher": "$gcc",
+				"detail": "构建单个目标(调试)"
+			},
+			{
+				"type": "shell",
+				"label": "build",
+				"command": "gcc",
+				"args": [
+					"-O2",
+					"-o",
+					"${fileBasenameNoExtension}.exe",
+					"${relativeFile}"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": true,
+					"clear": true
+				},
+				"group": {
+					"kind": "build",
+					"isDefault": true
+				},
+				"problemMatcher": "$gcc",
+				"detail": "构建单个目标(发布)"
+			},
+			{
+				"type": "shell",
+				"label": "build",
+				"command": "rm",
+				"args": [
+					"-f",
+					"${relativeFile}"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"presentation": {
+					"echo": false,
+					"reveal": "silent",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true,
+					"close": true
+				},
+				"isBackground": true,
+				"detail": "删除单个目标"
+			},
+			{
+				"type": "shell",
+				"label": "build",
+				"command": "rm",
+				"args": [
+					"-f",
+					"*.exe"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"presentation": {
+					"echo": false,
+					"reveal": "silent",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true,
+					"close": true
+				},
+				"isBackground": true,
+				"detail": "删除工作区内全部目标"
+			}
+		]
+	}
+}
