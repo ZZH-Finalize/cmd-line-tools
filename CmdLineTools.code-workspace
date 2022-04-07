@@ -9,15 +9,15 @@
 		"C_Cpp.default.cStandard": "gnu11",
 		"C_Cpp.autocomplete": "Default",
 		"C_Cpp.default.cppStandard": "gnu++11",
-		"C_Cpp.default.compilerPath": "D:/cygwin64/bin/g++.exe",
+		"C_Cpp.default.compilerPath": "D:/cygwin64/bin/i686-w64-mingw32-g++.exe",
 		"C_Cpp.default.compilerArgs": [
 			"-Wall"
 		],
 		"C_Cpp.default.includePath": [
 			"${workspaceFolder}/**",
-			"D:/cygwin64/usr/include**"
+			"D:/cygwin64/usr/i686-w64-mingw32/sys-root/mingw/include**"
 		],
-		"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+		"C_Cpp.default.intelliSenseMode": "linux-gcc-x86",
 		"C_Cpp.default.defines": [
 			"__OPT_DEBUG"
 		],
@@ -37,7 +37,7 @@
 			{
 				"type": "cppbuild",
 				"label": "dbuild",
-				"command": "g++",
+				"command": "i686-w64-mingw32-g++",
 				"args": [
 					"-g3",
 					"-o",
@@ -65,7 +65,7 @@
 			{
 				"type": "cppbuild",
 				"label": "build",
-				"command": "g++",
+				"command": "i686-w64-mingw32-g++",
 				"args": [
 					"-O2",
 					"-o",
@@ -176,7 +176,7 @@
                 "environment": [],
                 "externalConsole": true,
                 "MIMode": "gdb",
-                "miDebuggerPath": "gdb",
+                "miDebuggerPath": "i686-w64-mingw32-gdb",
                 "setupCommands": [
                     {
                         "description": "为 gdb 启用整齐打印",

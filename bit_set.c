@@ -32,7 +32,7 @@ uint8_t __attribute__((hot)) IsHex(char ch)
 @param str 待校验的字符串
 @return 校验结果 0-非法 1-二进制 2-十进制 3-十六进制
 */
-uint8_t IsVaildNum(const char* restrict str)
+uint8_t IsVaildNum(const char* str)
 {
     uint8_t type = 0;
 
@@ -80,7 +80,7 @@ uint8_t IsVaildNum(const char* restrict str)
 @param pNum 转换输出
 @return 转换结果 0-转换失败 1-转换成功
 */
-uint8_t getNum(const char* restrict str, uint32_t* restrict const pNum)
+uint8_t getNum(const char* str, uint32_t* const pNum)
 {
     if (pNum == NULL)
         return 0;
