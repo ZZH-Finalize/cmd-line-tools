@@ -7,7 +7,7 @@
 	],
 	"settings": {
 		"C_Cpp.default.cStandard": "gnu11",
-		"C_Cpp.autocomplete": "Default",
+		"C_Cpp.autocomplete": "default",
 		"C_Cpp.default.cppStandard": "gnu++11",
 		"C_Cpp.default.compilerPath": "D:/cygwin64/bin/g++.exe",
 		"C_Cpp.default.compilerArgs": [
@@ -35,7 +35,7 @@
 		"version": "2.0.0",
 		"tasks": [
 			{
-				"type": "cppbuild",
+				"type": "shell",
 				"label": "dbuild",
 				"command": "g++",
 				"args": [
@@ -63,7 +63,7 @@
 				"detail": "构建单个目标(调试)"
 			},
 			{
-				"type": "cppbuild",
+				"type": "shell",
 				"label": "build",
 				"command": "g++",
 				"args": [
@@ -142,9 +142,10 @@
 				"type": "shell",
 				"label": "install",
 				"command": "cp",
+				"dependsOn": "build",
 				"args": [
 					"${fileBasenameNoExtension}.exe",
-					"/cygdrive/e/path/${fileBasenameNoExtension}.exe",
+					"/cygdrive/d/Path/",
 				],
 				"options": {
 					"cwd": "${workspaceFolder}"
