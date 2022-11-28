@@ -6,186 +6,101 @@
 		}
 	],
 	"settings": {
-		"C_Cpp.default.cStandard": "gnu11",
-		"C_Cpp.autocomplete": "default",
-		"C_Cpp.default.cppStandard": "gnu++11",
-		"C_Cpp.default.compilerPath": "D:/cygwin64/bin/g++.exe",
-		"C_Cpp.default.compilerArgs": [
-			"-Wall"
-		],
-		"C_Cpp.default.includePath": [
-			"${workspaceFolder}/**",
-			"D:/cygwin64/usr/include**"
-		],
-		"C_Cpp.default.intelliSenseMode": "linux-gcc-x86",
-		"C_Cpp.default.defines": [
-			"__OPT_DEBUG"
-		],
-		"files.exclude": {
-			"**/.git": true,
-			"**/.svn": true,
-			"**/.hg": true,
-			"**/CVS": true,
-			"**/.DS_Store": true,
-			"**/Thumbs.db": true,
-			"**/*.code-workspace": true
-		}
+		"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 	},
 	"tasks": {
 		"version": "2.0.0",
 		"tasks": [
 			{
-				"type": "shell",
-				"label": "dbuild",
-				"command": "g++",
-				"args": [
-					"-g3",
-					"-o",
-					"${fileBasenameNoExtension}.exe",
-					"${relativeFile}"
-				],
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
+				"label": "configure",
+				"type": "cmake",
+				"command": "configure",
 				"presentation": {
-					"echo": true,
-					"reveal": "always",
-					"focus": true,
 					"panel": "shared",
-					"showReuseMessage": true,
-					"clear": true
-				},
-				"group": {
-					"kind": "test",
-					"isDefault": true
-				},
-				"problemMatcher": "$gcc",
-				"detail": "构建单个目标(调试)"
+					"clear": true,
+					"close": true
+				}
 			},
 			{
-				"type": "shell",
 				"label": "build",
-				"command": "g++",
-				"args": [
-					"-O2",
-					"-o",
-					"${fileBasenameNoExtension}.exe",
-					"${relativeFile}"
-				],
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"presentation": {
-					"echo": true,
-					"reveal": "always",
-					"focus": true,
-					"panel": "shared",
-					"showReuseMessage": true,
-					"clear": true
-				},
+				"type": "cmake",
+				"command": "build",
+				"problemMatcher": "$gcc",
+				"dependsOn": "configure",
 				"group": {
 					"kind": "build",
 					"isDefault": true
 				},
+				"presentation": {
+					"echo": true,
+					"panel": "shared",
+					"clear": true
+				}
+			},
+			{
+				"label": "test",
+				"type": "cmake",
+				"command": "test",
 				"problemMatcher": "$gcc",
-				"detail": "构建单个目标(发布)"
+				"presentation": {
+					"echo": true,
+					"panel": "shared",
+					"clear": true
+				}
 			},
 			{
-				"type": "shell",
-				"label": "clean-one",
-				"command": "rm",
-				"args": [
-					"-f",
-					"${relativeFile}",
-					"${relativeFile}.stackdump",
-				],
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"presentation": {
-					"echo": false,
-					"reveal": "silent",
-					"focus": false,
-					"panel": "shared",
-					"showReuseMessage": false,
-					"clear": true,
-					"close": true
-				},
+				"label": "clean",
+				"type": "cmake",
+				"command": "clean",
 				"isBackground": true,
-				"detail": "删除单个目标"
+				"presentation": {
+					"panel": "shared",
+					"clear": true,
+					"close": true,
+					"reveal": "silent"
+				}
 			},
 			{
+				"label": "run",
 				"type": "shell",
-				"label": "clean-all",
-				"command": "rm",
-				"args": [
-					"-f",
-					"*.exe",
-					"*.exe.stackdump",
-				],
+				"command": "./${fileBasenameNoExtension}",
 				"options": {
-					"cwd": "${workspaceFolder}"
+					"cwd": "${workspaceFolder}/build"
 				},
 				"presentation": {
-					"echo": false,
-					"reveal": "silent",
-					"focus": false,
 					"panel": "shared",
-					"showReuseMessage": false,
 					"clear": true,
-					"close": true
+					"focus": true
 				},
-				"isBackground": true,
-				"detail": "删除工作区内全部目标"
-			},
-			{
-				"type": "shell",
-				"label": "install",
-				"command": "cp",
-				"dependsOn": "build",
-				"args": [
-					"${fileBasenameNoExtension}.exe",
-					"/cygdrive/d/Path/",
-				],
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"presentation": {
-					"echo": false,
-					"reveal": "silent",
-					"focus": false,
-					"panel": "shared",
-					"showReuseMessage": false,
-					"clear": true,
-					"close": true
-				},
-				"isBackground": true,
-				"detail": "安装当前可执行文件到PATH路径"
-			},
+				"group": {
+					"kind": "test",
+					"isDefault": true
+				}
+			}
 		]
 	},
 	"launch": {
 		"configurations": [
 			{
-                "name": "current",
-                "type": "cppdbg",
-                "request": "launch",
-                "program": "${workspaceFolder}/${fileBasenameNoExtension}.exe",
-                "args": [],
-                "stopAtEntry": true,
-                "cwd": "${workspaceFolder}",
-                "environment": [],
-                "externalConsole": true,
-                "MIMode": "gdb",
-                "miDebuggerPath": "gdb",
-                "setupCommands": [
-                    {
-                        "description": "为 gdb 启用整齐打印",
-                        "text": "-enable-pretty-printing",
-                        "ignoreFailures": true
-                    }
-                ],
-            }
+				"name": "current",
+				"type": "cppdbg",
+				"request": "launch",
+				"program": "${workspaceFolder}/build/${fileBasenameNoExtension}.exe",
+				"args": [],
+				"stopAtEntry": true,
+				"cwd": "${workspaceFolder}",
+				"environment": [],
+				"externalConsole": true,
+				"MIMode": "gdb",
+				"miDebuggerPath": "gdb",
+				"setupCommands": [
+					{
+						"description": "为 gdb 启用整齐打印",
+						"text": "-enable-pretty-printing",
+						"ignoreFailures": true
+					}
+				],
+			}
 		],
 		"compounds": []
 	}
