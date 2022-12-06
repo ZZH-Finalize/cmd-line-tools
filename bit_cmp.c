@@ -19,17 +19,21 @@ int main(const int argc, const char** argv)
     if (!getNum(argv[2], &num2))
         printf("%s is not a valid number\r\n", argv[2]);
 
-    typeof(num1) mask = num1 & num2;
+    typeof(num1) mask = num1 ^ num2;
+    char buf[128];
+    uint32_t len = 0;
 
-    if (mask & 0x01)
-        putchar('0');
-    mask >>= 1;
-
-    for (typeof(mask) i = 1;i < sizeof(mask) * 8 && mask>0;i++)
+    for (typeof(mask) i = 0;i < sizeof(mask) * 8 && mask>0;i++)
     {
         if (mask & 0x01)
-            printf(", %d", i);
+            len += sprintf(&buf[len], "%d, ", i);
         mask >>= 1;
+    }
+
+    if (0 != len)
+    {
+        buf[len - 2] = '\0';
+        puts(buf);
     }
 
     return 0;
