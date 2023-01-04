@@ -20,6 +20,8 @@
 // #define IsBin(x) IsInCloseRange(x, '0', '1')
 // #define IsHex(x) (IsUpper(x) || IsLower(x) || IsNum(x))
 
+#define swap(a, b) do{typeof(a) c = a; a = b; b = c;}while(0)
+
 uint8_t __attribute__((hot)) IsNum(char ch);
 
 uint8_t __attribute__((hot)) IsBin(char ch);
