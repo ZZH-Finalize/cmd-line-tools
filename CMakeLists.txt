@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25.0)
+cmake_minimum_required(VERSION 3.21.0)
 project(cmdline-tools LANGUAGES C CXX)
 
 include_directories(lib)

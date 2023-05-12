@@ -6,7 +6,7 @@ int main(const int args, const char** argv)
     char pArg[32];
     for (int i = 1;i < args;i++)
     {
-        strcpy_s(pArg, sizeof(pArg), argv[i]);
+        snprintf(pArg, sizeof(pArg), "%s", argv[i]);
         uint32_t bitPos1 = 0, bitPos2 = 0;
         // printf("%s\r\n", argv[i]);
         char* dashPos = strchr(pArg, '-');
