@@ -16,7 +16,7 @@ int main(const int argc, const char** argv)
         if (0 != getNum(pArg, &value))
         {
             printf("%s: ", pArg);
-            for (size_t offset = 0;offset < 32;offset++)
+            for (uint32_t offset = 0;offset < 32;offset++)
             {
                 if (0 != (value & (1 << offset)))
                     printf("%d, ", offset);
