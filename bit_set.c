@@ -4,6 +4,7 @@ int main(const int args, const char** argv)
 {
     uint32_t value = 0;
     char pArg[32];
+
     for (int i = 1;i < args;i++)
     {
         snprintf(pArg, sizeof(pArg), "%s", argv[i]);
@@ -39,7 +40,6 @@ int main(const int args, const char** argv)
         }
         else
         {
-            
             if (getNum(pArg, &bitPos1))//转换成功
                 value |= 1 << bitPos1;
             else
@@ -47,6 +47,8 @@ int main(const int args, const char** argv)
         }
 
     }
+
     printf("Final Result: %u - %#X\r\n", value, value);
+
     return 0;
 }
