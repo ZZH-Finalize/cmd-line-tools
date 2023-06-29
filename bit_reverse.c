@@ -6,8 +6,16 @@
 */
 #include "common.h"
 
+const char* usage = "usage: bit_reverse <number> <bit-length>";
+
 int main(const int argc, const char** argv)
 {
+    if (argc < 3)
+    {
+        puts(usage);
+        return -1;
+    }
+
     uint32_t num = 0, len = 0;
 
     if (!getNum(argv[1], &num))
