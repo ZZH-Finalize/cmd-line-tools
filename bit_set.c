@@ -24,13 +24,7 @@ int main(const int args, const char** argv)
 
                 // printf("bitPos1:%d, bitPos2:%d\r\n", bitPos1, bitPos2);
 
-                uint32_t bitMask = 1 << bitPos1;
-
-                for (int i = bitPos1;i <= bitPos2;i++)
-                {
-                    value <<= 1;
-                    value |= bitMask;
-                }
+                value |= ((1 << (bitPos2 - bitPos1 + 1)) - 1) << bitPos1;
             }
             else
             {
