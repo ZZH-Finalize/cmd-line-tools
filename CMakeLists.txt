@@ -4,7 +4,7 @@ project(cmdline-tools LANGUAGES C CXX)
 include_directories(lib)
 
 add_library(cmdtool_common SHARED lib/common.c)
-install(TARGETS cmdtool_common DESTINATION D:/Path)
+install(TARGETS cmdtool_common DESTINATION ~/path)
 
 function(add_tool name src)
     add_executable(${name} ${src})
@@ -17,9 +17,17 @@ file(GLOB tools
     *.cpp
 )
 
+message("Host System is: " ${CMAKE_HOST_SYSTEM_NAME})
+
 foreach(tool ${tools})
     string(REPLACE "." ";" fn ${tool})
     list(GET fn 0 fn)
     add_tool(${fn} ${tool})
-    install(TARGETS ${fn} DESTINATION D:/Path)
+    if(${CMAKE_HOST_SYSTEM_NAME} MATCHES "Windows")
+        install(TARGETS ${fn} DESTINATION D:/Path)
+    elseif(${CMAKE_HOST_SYSTEM_NAME} MATCHES "Linux")
+        install(TARGETS ${fn} DESTINATION ~/path)
+    else()
+        message(FATAL_ERROR "unknow platform")
+    endif()
 endforeach()
