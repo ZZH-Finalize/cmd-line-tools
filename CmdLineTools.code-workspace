@@ -6,7 +6,8 @@
 		}
 	],
 	"settings": {
-		"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+		"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+		"C_Cpp.default.compileCommands": "build\\compile_commands.json"
 	},
 	"tasks": {
 		"version": "2.0.0",

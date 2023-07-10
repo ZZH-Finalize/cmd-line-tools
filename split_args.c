@@ -40,12 +40,13 @@ static uint8_t CheckFmt(const char* fmt)
 
 int main(const int argc, const char** argv)
 {
-    char* fmt = (char*) malloc(1024 * 4);
+    const size_t maxBufSize = 1024 * 4;
+    char* fmt = (char*) malloc(maxBufSize);
 
     if (fmt)
     {
         printf("please input a format string: ");
-        gets(fmt);
+        fgets(fmt, maxBufSize, stdin);
 
         if (CheckFmt(fmt))
         {

@@ -4,7 +4,14 @@ project(cmdline-tools LANGUAGES C CXX)
 include_directories(lib)
 
 add_library(cmdtool_common SHARED lib/common.c)
-install(TARGETS cmdtool_common DESTINATION ~/path)
+
+if(${CMAKE_HOST_SYSTEM_NAME} MATCHES "Windows")
+    install(TARGETS cmdtool_common DESTINATION D:/Path)
+elseif(${CMAKE_HOST_SYSTEM_NAME} MATCHES "Linux")
+    install(TARGETS cmdtool_common DESTINATION ~/path)
+else()
+    message(FATAL_ERROR "unknow platform")
+endif()
 
 function(add_tool name src)
     add_executable(${name} ${src})
