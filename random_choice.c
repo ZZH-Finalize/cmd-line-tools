@@ -10,7 +10,7 @@ int main(int argc, const char** argv)
         argc -= 1;
         size_t random = 0;
         asm("rdrand %0":"=r"(random));
-        printf(argv[(random % argc) + 1]);
+        printf("%s", argv[(random % argc) + 1]);
     }
 
     return 0;
