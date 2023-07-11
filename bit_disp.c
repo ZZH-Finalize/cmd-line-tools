@@ -17,19 +17,32 @@ int main(const int argc, const char** argv)
     }
 
     uint32_t value = 0;
+    char buf[128]; // maxminum char number is nearly 118 chars
 
     for (size_t i = 1; i < argc; i++)
     {
-        const char *pArg = argv[i];
+        const char* pArg = argv[i];
+        char* pBuf = buf;
+
         if (0 != getNum(pArg, &value))
         {
             printf("%s: ", pArg);
+
             for (uint32_t offset = 0;offset < 32;offset++)
             {
-                if (0 != (value & (1 << offset)))
-                    printf("%d, ", offset);
+                if (0 != (value & 0x01))
+                    pBuf += snprintf(pBuf, sizeof(buf), "%d, ", offset);
+
+                value >>= 1;
+
+                if (0 == value) // last bit is already handled
+                {
+                    pBuf[-2] = '\0';
+                    break;
+                }
             }
-            printf("\b\b  \n");
+
+            puts(buf);
         }
         else
         {
