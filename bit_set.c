@@ -23,8 +23,9 @@ int main(const int args, const char** argv)
                     swap(bitPos1, bitPos2);
 
                 // printf("bitPos1:%d, bitPos2:%d\r\n", bitPos1, bitPos2);
-
-                value |= ((1 << (bitPos2 - bitPos1 + 1)) - 1) << bitPos1;
+                uint64_t tmp = 1;
+                tmp <<= bitPos2 - bitPos1 + 1;
+                value |= (tmp - 1) << bitPos1;
             }
             else
             {
