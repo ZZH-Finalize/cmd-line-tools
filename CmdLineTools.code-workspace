@@ -52,11 +52,20 @@
 					"close": true,
 					"reveal": "silent",
 					"panel": "shared"
+				}
+			},
+			{
+				"label": "meosn-install",
+				"type": "meson",
+				"mode": "install",
+				"isBackground": true,
+				"presentation": {
+					"clear": true,
+					// "close": true,
+					"reveal": "silent",
+					"panel": "shared"
 				},
-				// "group": {
-				// 	"kind": "test",
-				// 	"isDefault": true
-				// }
+				"problemMatcher": []
 			},
 			{
 				"label": "run",
@@ -83,7 +92,7 @@
 				"name": "current",
 				"type": "cppdbg",
 				"request": "launch",
-				"program": "${workspaceFolder}/build/${fileBasenameNoExtension}.exe",
+				"program": "${workspaceFolder}/build/${fileBasenameNoExtension}_debug.exe",
 				"args": [],
 				"stopAtEntry": true,
 				"cwd": "${workspaceFolder}",

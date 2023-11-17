@@ -2,7 +2,7 @@ project('cli-tools', ['c', 'cpp'],
     version: '0.1',
     license: 'GPL-2.0',
     license_files: 'LICENSE',
-    default_options: ['warning_level=3'],
+    default_options: ['warning_level=3',],
 )
 
 install_dirs = {
@@ -40,25 +40,52 @@ lib_srcs = [
 
 incs = ['lib']
 
-lib = shared_library('common', lib_srcs,
+lib = shared_library('cmdtool_common', lib_srcs,
     install: true,
     install_dir: install_dirs[target_machine.system()]
 )
 
 all_srcs = c_srcs + cpp_srcs
-foreach src : all_srcs
 
-    exe_name = fs.stem(src)
+build_setup = {
+    'debug': {
+        # 'suffix': true,
+        'c_args': [
+            '-g3',
+            '-O0'
+        ]
+    },
+    'release': {
+        'suffix': '',
+        'c_args': [
+            '-O2'
+        ],
+        'install': true
+    }
+}
 
-    exe = executable(exe_name, src,
-        include_directories: incs,
-        c_args: c_args,
-        cpp_args: cpp_args,
-        link_args: ld_args,
-        link_with: lib,
-        install: true,
-        install_dir: install_path
-    )
+foreach setup_name, options: build_setup
+
+    foreach src : all_srcs
+
+        exe_name = fs.stem(src)
+        suffix = options.get('suffix', setup_name)
+
+        if '' != suffix
+            exe_name += '_' + suffix
+        endif
+
+        executable(exe_name, src,
+            include_directories: incs,
+            c_args: c_args + options.get('c_args', []),
+            cpp_args: cpp_args + options.get('cpp_args', []),
+            link_args: ld_args + options.get('ld_args', []),
+            link_with: lib,
+            install: options.get('install', false),
+            install_dir: install_path
+        )
+
+    endforeach
 
 endforeach
 
