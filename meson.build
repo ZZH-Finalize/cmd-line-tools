@@ -5,7 +5,15 @@ project('cli-tools', ['c', 'cpp'],
     default_options: ['warning_level=3'],
 )
 
-message(host_machine.system())
+install_dirs = {
+    'linux': '~/path',
+    'windows': 'D:/Path',
+    'cygwin': '/cygdrive/d/Path'
+}
+
+install_path = install_dirs[target_machine.system()]
+
+message('install path: ', install_path)
 
 c_args = []
 cpp_args = []
@@ -23,8 +31,8 @@ cpp_find_res = run_command('find', './', '-maxdepth', '1', '-name', '*.cpp',
     check: false
 )
 
-c_srcs = c_find_res.stdout().strip().splitlines()
-cpp_srcs = cpp_find_res.stdout().strip().splitlines()
+c_srcs = c_find_res.stdout().splitlines()
+cpp_srcs = cpp_find_res.stdout().splitlines()
 
 lib_srcs = [
     'lib/common.c'
@@ -32,20 +40,24 @@ lib_srcs = [
 
 incs = ['lib']
 
+lib = shared_library('common', lib_srcs,
+    install: true,
+    install_dir: install_dirs[target_machine.system()]
+)
+
 all_srcs = c_srcs + cpp_srcs
 foreach src : all_srcs
 
     exe_name = fs.stem(src)
-
-    message('src: ', src, ', exe_name: ', exe_name)
 
     exe = executable(exe_name, src,
         include_directories: incs,
         c_args: c_args,
         cpp_args: cpp_args,
         link_args: ld_args,
-        # native: true,
-        install: true
+        link_with: lib,
+        install: true,
+        install_dir: install_path
     )
 
 endforeach
