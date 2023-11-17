@@ -19,7 +19,7 @@ int main(const int argc, const char** argv)
     uint32_t value = 0;
     char buf[128]; // maxminum char number is nearly 118 chars
 
-    for (size_t i = 1; i < argc; i++)
+    for (int i = 1; i < argc; i++)
     {
         const char* pArg = argv[i];
         char* pBuf = buf;

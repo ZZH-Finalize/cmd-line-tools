@@ -17,7 +17,7 @@ int main(const int args, const char** argv)
             uint8_t res = getNum(pArg, &bitPos1);
             res &= getNum(dashPos + 1, &bitPos2);
 
-            if (res && IsInCloseRange(bitPos1, 0, 31) && IsInCloseRange(bitPos2, 0, 31))
+            if (res && bitPos1 <= 31 && bitPos2 <= 31)
             {
                 if (bitPos1 > bitPos2)
                     swap(bitPos1, bitPos2);
