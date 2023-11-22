@@ -6,14 +6,16 @@ project('cli-tools', ['c', 'cpp'],
 )
 
 install_dirs = {
-    'linux': '~/path',
+    'linux': '/home/zzh/path',
     'windows': 'D:/Path',
     'cygwin': '/cygdrive/d/Path'
 }
 
 install_path = install_dirs[target_machine.system()]
+build_dir = meson.current_build_dir()
+src_dir = meson.current_source_dir()
 
-message('install path: ', install_path)
+message('install path:', install_path)
 
 c_args = []
 cpp_args = []
@@ -31,8 +33,8 @@ cpp_find_res = run_command('find', './', '-maxdepth', '1', '-name', '*.cpp',
     check: false
 )
 
-c_srcs = c_find_res.stdout().splitlines()
-cpp_srcs = cpp_find_res.stdout().splitlines()
+c_srcs = c_find_res.stdout().split('\n')
+cpp_srcs = cpp_find_res.stdout().split('\n')
 
 lib_srcs = [
     'lib/common.c'
@@ -42,10 +44,18 @@ incs = ['lib']
 
 lib = shared_library('cmdtool_common', lib_srcs,
     install: true,
-    install_dir: install_dirs[target_machine.system()]
+    install_dir: install_path
 )
 
-all_srcs = c_srcs + cpp_srcs
+# all_srcs = c_srcs + cpp_srcs
+
+all_srcs = []
+
+foreach src : c_srcs
+    if '' != src
+        all_srcs += src
+    endif
+endforeach
 
 build_setup = {
     'debug': {
@@ -64,6 +74,8 @@ build_setup = {
     }
 }
 
+install_list = []
+
 foreach setup_name, options: build_setup
 
     foreach src : all_srcs
@@ -75,17 +87,36 @@ foreach setup_name, options: build_setup
             exe_name += '_' + suffix
         endif
 
-        executable(exe_name, src,
+        install = options.get('install', false)
+
+        exe = executable(exe_name, src,
             include_directories: incs,
             c_args: c_args + options.get('c_args', []),
             cpp_args: cpp_args + options.get('cpp_args', []),
             link_args: ld_args + options.get('ld_args', []),
             link_with: lib,
-            install: options.get('install', false),
+            install: install,
             install_dir: install_path
         )
+
+        if true == install
+            install_list += exe
+        endif
 
     endforeach
 
 endforeach
 
+file_list = [lib.full_path()]
+
+foreach exe: install_list
+    file_list += exe.full_path()
+endforeach
+
+run_target('install_custom',
+    command: [
+        'cp',
+        file_list,
+        install_path
+    ]
+)
