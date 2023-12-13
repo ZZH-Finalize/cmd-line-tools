@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #define IsInCloseRange(x, d, u) (x >= d && x <= u)
 #define IsInOpenRange(x, d, u) (x > d && x < u)
