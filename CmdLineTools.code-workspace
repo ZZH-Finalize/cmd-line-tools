@@ -6,8 +6,10 @@
 		}
 	],
 	"settings": {
-		"C_Cpp.default.configurationProvider": "mesonbuild.mesonbuild",
-		"C_Cpp.default.compileCommands": "builddir/compile_commands.json"
+		// "C_Cpp.default.configurationProvider": "mesonbuild.mesonbuild",
+		"C_Cpp.default.compileCommands": "builddir/compile_commands.json",
+		"C_Cpp.formatting": "clangFormat",
+		"C_Cpp.clang_format_style": "file"
 	},
 	"tasks": {
 		"version": "2.0.0",
@@ -92,7 +94,7 @@
 				"name": "current",
 				"type": "cppdbg",
 				"request": "launch",
-				"program": "${workspaceFolder}/build/${fileBasenameNoExtension}_debug.exe",
+				"program": "${workspaceFolder}/builddir/${fileBasenameNoExtension}_debug",
 				"args": [],
 				"stopAtEntry": true,
 				"cwd": "${workspaceFolder}",
