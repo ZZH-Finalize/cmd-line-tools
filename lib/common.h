@@ -14,15 +14,20 @@
 #include <fcntl.h>
 
 #define IsInCloseRange(x, d, u) (x >= d && x <= u)
-#define IsInOpenRange(x, d, u) (x > d && x < u)
+#define IsInOpenRange(x, d, u)  (x > d && x < u)
 
-#define IsLower(x) IsInCloseRange(x, 'a', 'f')
-#define IsUpper(x) IsInCloseRange(x, 'A', 'F')
+#define IsLower(x)              IsInCloseRange(x, 'a', 'f')
+#define IsUpper(x)              IsInCloseRange(x, 'A', 'F')
 // #define IsNum(x) IsInCloseRange(x, '0', '9')
 // #define IsBin(x) IsInCloseRange(x, '0', '1')
 // #define IsHex(x) (IsUpper(x) || IsLower(x) || IsNum(x))
 
-#define swap(a, b) do{typeof(a) c = a; a = b; b = c;}while(0)
+#define swap(a, b)       \
+    do {                 \
+        typeof(a) c = a; \
+        a = b;           \
+        b = c;           \
+    } while (0)
 
 uint8_t __attribute__((hot)) IsNum(char ch);
 

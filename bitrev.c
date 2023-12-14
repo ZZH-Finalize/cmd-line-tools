@@ -10,8 +10,7 @@ const char* usage = "usage: bit_reverse <number> <bit-length>";
 
 int main(const int argc, const char** argv)
 {
-    if (argc < 3)
-    {
+    if (argc < 3) {
         puts(usage);
         return -1;
     }

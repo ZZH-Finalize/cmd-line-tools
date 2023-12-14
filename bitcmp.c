@@ -23,15 +23,13 @@ int main(const int argc, const char** argv)
     char buf[128];
     uint32_t len = 0;
 
-    for (typeof(mask) i = 0;i < sizeof(mask) * 8 && mask>0;i++)
-    {
+    for (typeof(mask) i = 0; i < sizeof(mask) * 8 && mask > 0; i++) {
         if (mask & 0x01)
             len += sprintf(&buf[len], "%d, ", i);
         mask >>= 1;
     }
 
-    if (0 != len)
-    {
+    if (0 != len) {
         buf[len - 2] = '\0';
         puts(buf);
     }

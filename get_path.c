@@ -7,8 +7,7 @@ int main(int argc, char** argv)
     (void) argv;
 
     const char* varPath = getenv("PATH");
-    while (*varPath)
-    {
+    while (*varPath) {
         putchar(*varPath == ':' ? '\n' : *varPath);
         varPath++;
     }

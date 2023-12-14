@@ -48,7 +48,7 @@ int main(const int argc, const char** argv)
         }
     }
 
-    while (':' != pipe_char) pipe_char = getchar();
+    while (':' != pipe_char && EOF != pipe_char) pipe_char = getchar();
 
     char num_buf[] = {"0x00000000"};
     char* pnum_buf = num_buf;

@@ -10,16 +10,15 @@ __attribute__((pure)) uint8_t ff1(size_t num)
     if (0 == num)
         return 0;
 
-    uint8_t bitsOfVar = sizeof(num) * 8;//通过sizeof实现自适应
+    uint8_t bitsOfVar = sizeof(num) * 8; // 通过sizeof实现自适应
     uint8_t index = 1;
 
-    //这里执行的时候变量的位数已经固定了, 所以实际上是O(1), 32位固定循环5次, 64位固定循环6次
-    while (bitsOfVar)
-    {
+    // 这里执行的时候变量的位数已经固定了, 所以实际上是O(1), 32位固定循环5次,
+    // 64位固定循环6次
+    while (bitsOfVar) {
         bitsOfVar /= 2;
         size_t tmp = num >> bitsOfVar;
-        if (tmp)
-        {
+        if (tmp) {
             index += bitsOfVar;
             num = tmp;
         }
@@ -42,8 +41,7 @@ __attribute__((pure)) size_t reverseBits(size_t num, uint8_t bitsOfVar)
     const size_t topBit = 1 << (bitsOfVar - 1);
     bitsOfVar >>= 1;
 
-    for (uint8_t i = 0;i < bitsOfVar;i++)
-    {
+    for (uint8_t i = 0; i < bitsOfVar; i++) {
         size_t lowMask = 1 << i;
         size_t highMask = topBit >> i;
         uint8_t lowBit = (num & lowMask) > 0;
@@ -80,37 +78,29 @@ uint8_t IsVaildNum(const char* str)
 {
     uint8_t type = 0;
 
-    uint8_t(*funs[])(char) = { IsBin, IsNum, IsHex };
+    uint8_t (*funs[])(char) = {IsBin, IsNum, IsHex};
 
-    while (*str == '0')//跳过开头所有的0
+    while (*str == '0') // 跳过开头所有的0
         str++;
 
-    if (*str == '\0')//只有0的情况下
-        return 2;//算十进制0
+    if (*str == '\0') // 只有0的情况下
+        return 2;     // 算十进制0
 
-    //根据开头定性格式
-    if (*str == 'x' || *str == 'X')//十六进制
-    {
+    // 根据开头定性格式
+    if (*str == 'x' || *str == 'X') { // 十六进制
         type = 2;
-    }
-    else if (*str == 'b' || *str == 'B')//二进制
-    {
+    } else if (*str == 'b' || *str == 'B') { // 二进制
         type = 0;
-    }
-    else if (IsNum(*str))//十进制
-    {
+    } else if (IsNum(*str)) { // 十进制
         type = 1;
-    }
-    else//非法字母
-    {
+    } else { // 非法字母
         return 0;
     }
 
     str++;
 
-    //校验其余字符是否合规
-    while (*str != '\0')
-    {
+    // 校验其余字符是否合规
+    while (*str != '\0') {
         if (!funs[type](*str++))
             return 0;
     }
@@ -129,27 +119,23 @@ uint8_t getNum(const char* str, uint32_t* const pNum)
     if (pNum == NULL)
         return 0;
 
-    //2-十进制 3-十六进制
-    const char* fmt[] = { "%d", "%x" };
+    // 2-十进制 3-十六进制
+    const char* fmt[] = {"%d", "%x"};
     uint8_t type = IsVaildNum(str);
     *pNum = 0;
 
-    if (type == 0)//非法字符,转换失败
-    {
+    if (type == 0) { // 非法字符,转换失败
         return 0;
-    }
-    else if (type == 1)//二进制,需手动转换
-    {
-        str += 2;//跳过0b前缀
-        while (*str != '\0')
-        {
+    } else if (type == 1) { // 二进制,需手动转换
+        str += 2;           // 跳过0b前缀
+        while (*str != '\0') {
             *pNum <<= 1;
             *pNum |= *str - '0';
             str++;
         }
-    }
-    else//十进制或十六进制
+    } else { // 十进制或十六进制
         sscanf(str, fmt[type - 2], pNum);
+    }
 
     return 1;
 }
