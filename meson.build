@@ -11,7 +11,8 @@ install_dirs = {
     'cygwin': '/cygdrive/d/Path'
 }
 
-install_path = install_dirs[target_machine.system()]
+system_name = target_machine.system()
+install_path = install_dirs[system_name]
 build_dir = meson.current_build_dir()
 src_dir = meson.current_source_dir()
 
@@ -23,6 +24,8 @@ ld_args = []
 
 fs = import('fs')
 
+if 'linux' == system_name
+
 c_find_res = run_command('find', './', '-maxdepth', '1', '-regex', '.*\.c',
     capture: true,
     check: false
@@ -32,6 +35,20 @@ cpp_find_res = run_command('find', './', '-maxdepth', '1', '-regex', '.*\.cpp',
     capture: true,
     check: false
 )
+
+elif 'cygwin' == system_name or 'windows' == system_name
+
+c_find_res = run_command('ls', '*.c',
+    capture: true,
+    check: false
+)
+
+cpp_find_res = run_command('ls', '*.cpp',
+    capture: true,
+    check: false
+)
+
+endif
 
 c_srcs = c_find_res.stdout().split('\n')
 cpp_srcs = cpp_find_res.stdout().split('\n')
