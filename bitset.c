@@ -6,16 +6,19 @@ const char* usage = "usage: bitset <number1> <number2> ...";
 
 int main(const int argc, const char** argv)
 {
-    fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
+    uint32_t value = 0;
 
-    char pipe_char = getchar();
+    // this method only for linux
+    // fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
 
-    if ((argc < 2) && (EOF == pipe_char)) {
+    // this method can run on both windows(cygwin) and linux
+    int isatty_flag = isatty(fileno(stdin));
+
+    if ((argc < 2) && (isatty_flag != 0)) {
         puts(usage);
         return -1;
     }
 
-    uint32_t value = 0;
     char pArg[32];
 
     for (int i = 1; i < argc; i++) {
@@ -48,27 +51,31 @@ int main(const int argc, const char** argv)
         }
     }
 
-    while (':' != pipe_char && EOF != pipe_char) pipe_char = getchar();
+    if (0 == isatty_flag) {
+        char pipe_char = getchar();
 
-    char num_buf[] = {"0x00000000"};
-    char* pnum_buf = num_buf;
+        while (':' != pipe_char && EOF != pipe_char) pipe_char = getchar();
 
-    for (pipe_char = getchar(); EOF != pipe_char; pipe_char = getchar()) {
-        if ((' ' != pipe_char) && (',' != pipe_char) && ('\r' != pipe_char)
-            && ('\n' != pipe_char)) {
-            *pnum_buf++ = pipe_char;
-        } else if (pnum_buf != num_buf) {
-            *pnum_buf = '\0';
-            // printf("numbuf: %s\r\n", num_buf);
-            uint32_t bit_pos = 0;
+        char num_buf[] = {"0x00000000"};
+        char* pnum_buf = num_buf;
 
-            if (getNum(num_buf, &bit_pos)) {
-                value |= 1 << bit_pos;
-            } else {
-                printf("%s is not a valid number\r\n", num_buf);
+        for (pipe_char = getchar(); EOF != pipe_char; pipe_char = getchar()) {
+            if ((' ' != pipe_char) && (',' != pipe_char) && ('\r' != pipe_char)
+                && ('\n' != pipe_char)) {
+                *pnum_buf++ = pipe_char;
+            } else if (pnum_buf != num_buf) {
+                *pnum_buf = '\0';
+                // printf("numbuf: %s\r\n", num_buf);
+                uint32_t bit_pos = 0;
+
+                if (getNum(num_buf, &bit_pos)) {
+                    value |= 1 << bit_pos;
+                } else {
+                    printf("%s is not a valid number\r\n", num_buf);
+                }
+
+                pnum_buf = num_buf;
             }
-
-            pnum_buf = num_buf;
         }
     }
 
