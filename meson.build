@@ -23,12 +23,12 @@ ld_args = []
 
 fs = import('fs')
 
-c_find_res = run_command('find', './', '-maxdepth', '1', '-name', '*.c',
+c_find_res = run_command('find', './', '-maxdepth', '1', '-regex', '.*\.c',
     capture: true,
     check: false
 )
 
-cpp_find_res = run_command('find', './', '-maxdepth', '1', '-name', '*.cpp',
+cpp_find_res = run_command('find', './', '-maxdepth', '1', '-regex', '.*\.cpp',
     capture: true,
     check: false
 )
