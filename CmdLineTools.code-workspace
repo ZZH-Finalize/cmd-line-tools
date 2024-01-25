@@ -9,7 +9,16 @@
 		// "C_Cpp.default.configurationProvider": "mesonbuild.mesonbuild",
 		"C_Cpp.default.compileCommands": "/projspace/proj/cmd-line-tools/builddir/compile_commands.json",
 		"C_Cpp.formatting": "clangFormat",
-		"C_Cpp.clang_format_style": "file"
+		"C_Cpp.clang_format_style": "file",
+		"C_Cpp.intelliSenseEngine": "disabled",
+        "clangd.checkUpdates": true,
+        "clangd.onConfigChanged": "restart",
+        "clangd.arguments": [
+            "--compile-commands-dir=builddir",
+            "--function-arg-placeholders=1",
+            "--header-insertion=iwyu", //enable: iwyu, disable: never
+            "--clang-tidy"
+        ],
 	},
 	"tasks": {
 		"version": "2.0.0",
@@ -28,13 +37,7 @@
 				"label": "meson-build",
 				"type": "meson",
 				"mode": "build",
-				"problemMatcher": {
-					"base": "$gcc",
-					"fileLocation": [
-						"relative",
-						"${workspaceFolder}/builddir/"
-					]
-				},
+				"problemMatcher": "$meson-gcc",
 				"presentation": {
 					"focus": true,
 					"clear": true
@@ -72,7 +75,7 @@
 			{
 				"label": "run",
 				"type": "shell",
-				"command": "./${fileBasenameNoExtension}",
+				"command": "sudo ./${fileBasenameNoExtension}",
 				"options": {
 					"cwd": "${workspaceFolder}/builddir"
 				},
