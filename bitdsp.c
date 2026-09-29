@@ -4,6 +4,7 @@
 @date: 2023-05-29
 @info: 位显示工具
 */
+#include <errno.h>
 #include "common.h"
 
 const char* usage = "usage: bitdsp <number1> <number2> ...";
@@ -12,7 +13,7 @@ int main(const int argc, const char** argv)
 {
     if (argc < 2) {
         puts(usage);
-        return -1;
+        return -EPERM;
     }
 
     uint32_t value = 0;
@@ -26,8 +27,16 @@ int main(const int argc, const char** argv)
             printf("%s: ", pArg);
 
             for (uint32_t offset = 0; offset < 32; offset++) {
-                if (0 != (value & 0x01))
-                    pBuf += snprintf(pBuf, sizeof(buf), "%d, ", offset);
+                if (0 != (value & 0x01)) {
+                    size_t remaining = sizeof(buf) - (size_t) (pBuf - buf);
+                    int n = snprintf(pBuf, remaining, "%d, ", offset);
+                    if (n < 0 || (size_t) n >= remaining) {
+                        printf("serialize error\r\n");
+                        return -EFAULT;
+                    }
+
+                    pBuf += n;
+                }
 
                 value >>= 1;
 
